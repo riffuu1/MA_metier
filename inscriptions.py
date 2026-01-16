@@ -23,23 +23,36 @@ def centrer_fenetre(fenetre, largeur, hauteur):
 
 
 def creer_compte():
+    nom = entry_nom.get()
+    email = entry_email.get()
     mdp = entry_mdp.get()
     confirm = entry_confirm.get()
 
-    if mdp != confirm:
-        label_erreur.config(text="Les mots de passe ne correspondent pas.")
+    # Vérification champs vides
+    if nom == "" or email == "" or mdp == "" or confirm == "":
+        label_erreur.config(
+            text="Veuillez remplir tous les champs.",
+            fg="red"
+        )
         return
 
-    label_erreur.config(text="Compte créé avec succès !", fg="green")
+    # Vérification mot de passe
+    if mdp != confirm:
+        label_erreur.config(
+            text="Les mots de passe ne correspondent pas.",
+            fg="red"
+        )
+        return
+
+    label_erreur.config(
+        text="Compte créé avec succès !",
+        fg="green"
+    )
 
 # ---------------- PAGE CREATION COMPTE ----------------
 register = Tk()
 register.title("Créer un compte - CPNV")
-
-
 register.state("zoomed")
-
-
 register.configure(bg=COULEUR_FOND)
 
 frame_register = Frame(register, bg="white", bd=10, relief="flat")
@@ -56,15 +69,17 @@ Label(frame_register, text="Rejoignez la plateforme du CPNV",
 Label(frame_register, text="Nom complet", bg="white", fg=COULEUR_TEXTE,
       font=FONT_LABEL).pack(anchor="w", padx=60)
 
-Entry(frame_register, font=FONT_LABEL, width=35,
-      bd=2, relief="solid").pack(anchor="w", padx=60, pady=(0, 15))
+entry_nom = Entry(frame_register, font=FONT_LABEL, width=35,
+                  bd=2, relief="solid")
+entry_nom.pack(anchor="w", padx=60, pady=(0, 15))
 
 # Champs Email
 Label(frame_register, text="Email", bg="white", fg=COULEUR_TEXTE,
       font=FONT_LABEL).pack(anchor="w", padx=60)
 
-Entry(frame_register, font=FONT_LABEL, width=35,
-      bd=2, relief="solid").pack(anchor="w", padx=60, pady=(0, 15))
+entry_email = Entry(frame_register, font=FONT_LABEL, width=35,
+                    bd=2, relief="solid")
+entry_email.pack(anchor="w", padx=60, pady=(0, 15))
 
 # Champs Mot de passe
 Label(frame_register, text="Mot de passe", bg="white", fg=COULEUR_TEXTE,
