@@ -35,39 +35,52 @@ def creer_compte():
 # ---------------- PAGE CREATION COMPTE ----------------
 register = Tk()
 register.title("Créer un compte - CPNV")
-centrer_fenetre(register, 600, 600)
+
+
+register.state("zoomed")
+
+
 register.configure(bg=COULEUR_FOND)
 
 frame_register = Frame(register, bg="white", bd=10, relief="flat")
-frame_register.pack(expand=True, fill=BOTH, padx=50, pady=50)
+frame_register.pack(expand=True, padx=50, pady=50)
 
 # Titre
 Label(frame_register, text="CRÉER UN COMPTE", bg="white", fg=COULEUR_ACCENT,
       font=FONT_TITRE).pack(pady=(10, 5))
+
 Label(frame_register, text="Rejoignez la plateforme du CPNV",
       bg="white", fg="#888", font=("Helvetica", 12, "italic")).pack(pady=(0, 20))
 
 # Champs Nom
 Label(frame_register, text="Nom complet", bg="white", fg=COULEUR_TEXTE,
-      font=FONT_LABEL).pack(anchor="w", padx=10)
-Entry(frame_register, font=FONT_LABEL, width=35, bd=2, relief="solid").pack(pady=(0, 15))
+      font=FONT_LABEL).pack(anchor="w", padx=60)
+
+Entry(frame_register, font=FONT_LABEL, width=35,
+      bd=2, relief="solid").pack(anchor="w", padx=60, pady=(0, 15))
 
 # Champs Email
 Label(frame_register, text="Email", bg="white", fg=COULEUR_TEXTE,
-      font=FONT_LABEL).pack(anchor="w", padx=10)
-Entry(frame_register, font=FONT_LABEL, width=35, bd=2, relief="solid").pack(pady=(0, 15))
+      font=FONT_LABEL).pack(anchor="w", padx=60)
+
+Entry(frame_register, font=FONT_LABEL, width=35,
+      bd=2, relief="solid").pack(anchor="w", padx=60, pady=(0, 15))
 
 # Champs Mot de passe
 Label(frame_register, text="Mot de passe", bg="white", fg=COULEUR_TEXTE,
-      font=FONT_LABEL).pack(anchor="w", padx=10)
-entry_mdp = Entry(frame_register, font=FONT_LABEL, width=35, bd=2, relief="solid", show="•")
-entry_mdp.pack(pady=(0, 15))
+      font=FONT_LABEL).pack(anchor="w", padx=60)
+
+entry_mdp = Entry(frame_register, font=FONT_LABEL, width=35,
+                  bd=2, relief="solid", show="•")
+entry_mdp.pack(anchor="w", padx=60, pady=(0, 15))
 
 # Champs Confirmation
 Label(frame_register, text="Confirmer le mot de passe", bg="white", fg=COULEUR_TEXTE,
-      font=FONT_LABEL).pack(anchor="w", padx=10)
-entry_confirm = Entry(frame_register, font=FONT_LABEL, width=35, bd=2, relief="solid", show="•")
-entry_confirm.pack(pady=(0, 25))
+      font=FONT_LABEL).pack(anchor="w", padx=60)
+
+entry_confirm = Entry(frame_register, font=FONT_LABEL, width=35,
+                      bd=2, relief="solid", show="•")
+entry_confirm.pack(anchor="w", padx=60, pady=(0, 25))
 
 # Bouton principal
 Button(frame_register, text="Créer le compte", font=FONT_BOLD,
