@@ -1,4 +1,3 @@
-
 '''
 name : login.py
 author: Dylan
@@ -15,26 +14,22 @@ FONT_TITRE     = ("Helvetica", 22, "bold")
 FONT_LABEL     = ("Helvetica", 13)
 FONT_BOLD      = ("Helvetica", 13, "bold")
 
-# ---------------- CENTRER FENETRE ----------------
-def centrer_fenetre(fenetre, largeur, hauteur):
-    ecran_largeur = fenetre.winfo_screenwidth()
-    ecran_hauteur = fenetre.winfo_screenheight()
-    x = (ecran_largeur // 2) - (largeur // 2)
-    y = (ecran_hauteur // 2) - (hauteur // 2)
-    fenetre.geometry(f"{largeur}x{hauteur}+{x}+{y}")
-
 # ---------------- PAGE LOGIN ----------------
 login = Tk()
 login.title("Connexion - CPNV")
-centrer_fenetre(login, 600, 600)  # Fenêtre plus grande
+
+# plein écran
+login.state("zoomed")
+
 login.configure(bg=COULEUR_FOND)
 
 frame_login = Frame(login, bg="white", bd=10, relief="flat")
-frame_login.pack(expand=True, fill=BOTH, padx=50, pady=50)
+frame_login.pack(expand=True, padx=50, pady=50)
 
 # Titre
-Label(frame_login, text="BIENVENUE AU CPNV", bg="white", fg=COULEUR_BOUTON,
-      font=FONT_TITRE).pack(pady=(10, 8))
+Label(frame_login, text="BIENVENUE AU CPNV", bg="white", fg=COULEUR_ACCENT,
+      font=FONT_TITRE).pack(pady=(10, 5))
+
 Label(frame_login, text="Connectez-vous pour accéder à votre espace",
       bg="white", fg="#888", font=("Helvetica", 12, "italic")).pack(pady=(0, 20))
 
@@ -46,17 +41,32 @@ Label(frame_login, image=photo, bg="white").pack(pady=15)
 
 # Champs Email
 Label(frame_login, text="Email", bg="white", fg=COULEUR_TEXTE,
-      font=FONT_LABEL).pack(anchor="w", padx=10)
-Entry(frame_login, font=FONT_LABEL, width=35, bd=2, relief="solid").pack(pady=(0, 18))
+      font=FONT_LABEL).pack(anchor="w", padx=60)
+
+Entry(frame_login, font=FONT_LABEL, width=35,
+      bd=2, relief="solid").pack(anchor="w", padx=60, pady=(0, 15))
 
 # Champs Mot de passe
 Label(frame_login, text="Mot de passe", bg="white", fg=COULEUR_TEXTE,
-      font=FONT_LABEL).pack(anchor="w", padx=10)
-Entry(frame_login, font=FONT_LABEL, width=35, bd=2, relief="solid", show="•").pack(pady=(0, 25))
+      font=FONT_LABEL).pack(anchor="w", padx=60)
 
-# Bouton
+Entry(frame_login, font=FONT_LABEL, width=35,
+      bd=2, relief="solid", show="•").pack(anchor="w", padx=60, pady=(0, 25))
+
+# Bouton connexion
 Button(frame_login, text="Se connecter", font=FONT_BOLD,
        bg=COULEUR_ACCENT, fg="white", activebackground=COULEUR_BOUTON,
-       relief="flat", cursor="hand2", padx=25, pady=12).pack(pady=(0, 10))
+       relief="flat", cursor="hand2", padx=25, pady=12).pack()
+
+# Message erreur
+label_erreur = Label(frame_login, text="", fg="red", bg="white",
+                     font=("Helvetica", 11, "bold"))
+label_erreur.pack(pady=(10, 5))
+
+# Bouton créer un compte
+Button(frame_login, text="Pas encore de compte ? S'inscrire",
+       font=("Helvetica", 11, "underline"), fg=COULEUR_ACCENT,
+       bg="white", relief="flat", cursor="hand2",
+       activeforeground=COULEUR_BOUTON).pack(pady=(15, 5))
 
 login.mainloop()
