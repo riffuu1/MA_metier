@@ -1,204 +1,304 @@
 import tkinter as tk
-from tkinter import ttk
-from PIL import Image, ImageTk
-import os
+from tkinter import messagebox
+import requests
 
 BG_COLOR = "#FAF3E0"
-TEXT_COLOR = "#6D6875"
-NAV_COLOR = "#D3D3D3"  # Gris clair pour la nav-bar
+TEXT_COLOR = "#4A4E69"
 
-# Chemin vers MA_metier/images
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-IMG_DIR = os.path.join(BASE_DIR, "images")
+API_DOMAINS = "http://127.0.0.1:5000/domains/"
+API_KNOWLEDGE = "http://127.0.0.1:5000/knowledge/"
 
 
 class MetierScreen(tk.Frame):
-    def __init__(self, master, show_forum_callback):
+    def __init__(self, master, show_forum_callback, user):
         super().__init__(master, bg=BG_COLOR)
         self.master = master
         self.show_forum_callback = show_forum_callback
+        self.user = user
+
+        self.current_domain = None
+        self.current_articles = []
+
         self.pack(fill="both", expand=True)
+        self.show_domains_view()
 
-        # =================== DONNÉES DES MÉTIERS ===================
-        self.metiers = {
-            "Informatique": {
-                "img": "img_6.png",
-                "desc": "Le métier d’Informaticien·ne CFC consiste à concevoir, développer, installer et maintenir des systèmes informatiques.",
-                "points": [
-                    "Programmation et développement d’applications",
-                    "Gestion de bases de données",
-                    "Administration réseaux et sécurité",
-                    "Support et assistance utilisateurs"
-                ],
-                "sous_domaines": {
-                    "Python": "Python est un langage polyvalent pour développement et automatisation.",
-                    "Gestion de bases de données": "Apprentissage des bases relationnelles, SQL et gestion des données."
-                }
-            },
-            "Médiamatique": {
-                "img": "img_4.png",
-                "desc": "La médiamatique regroupe multimédia, communication, marketing et informatique.",
-                "points": [
-                    "Création de contenus numériques",
-                    "Développement web et multimédia",
-                    "Communication digitale",
-                    "Gestion de projets créatifs"
-                ],
-                "sous_domaines": {
-                    "Communication digitale": "Stratégies de communication sur différents médias.",
-                    "Web & multimédia": "Création de sites web et contenus multimédias."
-                }
-            },
-            "Polymécanique": {
-                "img": "img_5.png",
-                "desc": "Le/la polymécanicien·ne fabrique des pièces mécaniques de haute précision.",
-                "points": [
-                    "Usinage de pièces complexes",
-                    "Machines CNC",
-                    "Lecture de plans techniques",
-                    "Maintenance et prototypage"
-                ],
-                "sous_domaines": {
-                    "Usinage CNC": "Apprentissage de l’usinage sur machines à commandes numériques.",
-                    "Prototypage": "Création et test de prototypes mécaniques."
-                }
-            }
-        }
+    # -------------------------
+    # PAGE DOMAINES PRINCIPALE
+    # -------------------------
+    def show_domains_view(self):
+        self.clear()
 
-        self.show_main_view()
-
-    # =================== ÉCRAN PRINCIPAL ===================
-    def show_main_view(self):
-        for widget in self.winfo_children():
-            widget.destroy()
-
-        tk.Label(self, text="Découverte des métiers", font=("Segoe UI", 28, "bold"),
-                 bg=BG_COLOR, fg=TEXT_COLOR).pack(pady=20)
-        tk.Label(self, text="Clique sur un métier pour en savoir plus", font=("Segoe UI", 14),
-                 bg=BG_COLOR, fg=TEXT_COLOR).pack()
-
-        frame_carte = tk.Frame(self, bg=BG_COLOR)
-        frame_carte.pack(pady=40)
-
-        for i, (titre, data) in enumerate(self.metiers.items()):
-            self.creer_carte(frame_carte, i, titre, data)
-
-    # =================== CARTES MÉTIERS ===================
-    def creer_carte(self, parent, colonne, titre, metier):
-        img_path = os.path.join(IMG_DIR, metier["img"])
-        if not os.path.exists(img_path):
-            print(f"Image manquante : {img_path}")
-            return
-
-        # Redimension proportionnel
-        max_width, max_height = 350, 200
-        img_pil = Image.open(img_path)
-        w, h = img_pil.size
-        ratio = min(max_width / w, max_height / h)
-        img_pil = img_pil.resize((int(w * ratio), int(h * ratio)))
-
-        img = ImageTk.PhotoImage(img_pil)
-
-        cadre = tk.Frame(parent, bg=BG_COLOR)
-        cadre.grid(row=0, column=colonne, padx=50, pady=50)
-
-        lbl_img = tk.Label(cadre, image=img, bg=BG_COLOR, cursor="hand2")
-        lbl_img.image = img
-        lbl_img.pack(pady=5)
-
-        lbl_titre = tk.Label(cadre, text=titre, font=("Segoe UI", 16, "bold"),
-                             bg=BG_COLOR, fg=TEXT_COLOR)
-        lbl_titre.pack(pady=5)
-
-        lbl_img.bind("<Button-1>", lambda e, t=titre: self.show_metier_view(t))
-        lbl_titre.bind("<Button-1>", lambda e, t=titre: self.show_metier_view(t))
-
-    # =================== ÉCRAN MÉTIER ===================
-    def show_metier_view(self, titre):
-        for widget in self.winfo_children():
-            widget.destroy()
-
-        self.current_metier = self.metiers[titre]
-
-        main_container = tk.Frame(self, bg=BG_COLOR)
-        main_container.pack(fill="both", expand=True, padx=20, pady=20)
-
-        # ===== NAV-BAR GAUCHE =====
-        # ===== NAV-BAR GAUCHE =====
-        nav_frame = tk.Frame(main_container, bg=NAV_COLOR, width=220)
-        nav_frame.pack(side="left", fill="y")
-        nav_frame.pack_propagate(False)
-
-        tk.Label(nav_frame, text=titre, font=("Segoe UI", 16, "bold"), bg=NAV_COLOR, fg=TEXT_COLOR).pack(pady=15)
-
-        # Bouton Intro pour revenir à la vue générale du métier
-        ttk.Button(nav_frame, text="Intro", command=lambda: self.show_sous_domaine(None)).pack(fill="x", padx=10, pady=8)
-
-        # Sous-domaines
-        for sd, desc in self.current_metier["sous_domaines"].items():
-            ttk.Button(nav_frame, text=sd, command=lambda s=sd: self.show_sous_domaine(s)).pack(fill="x", padx=10, pady=8)
-
-        # Boutons Forum
-        ttk.Button(nav_frame, text="→ Forum", command=lambda t=titre: self.show_forum_callback(t)).pack(fill="x", padx=10, pady=20)
-
-        # Boutons Ajouter une nouvelle connaissance
-        ttk.Button(nav_frame, text=" + Ajouter", command=lambda t=titre: self.show_forum_callback(t)).pack(fill="x", padx=10, pady=20)
-
-        # Boutons Retour
-        ttk.Button(nav_frame, text="← Retour", command=self.show_main_view).pack(fill="x", padx=10, pady=5)
-
-        # ===== ZONE DROITE =====
-        self.contenu_frame = tk.Frame(main_container, bg=BG_COLOR)
-        self.contenu_frame.pack(side="right", fill="both", expand=True)
-
-        # Affichage initial du métier
-        self.show_sous_domaine(None)
-
-    # =================== AFFICHAGE SOUS-DOMAINE OU MÉTIER ===================
-    def show_sous_domaine(self, sous_domaine):
-        for widget in self.contenu_frame.winfo_children():
-            widget.destroy()
-
-        if sous_domaine is None:
-            desc = self.current_metier["desc"]
-            points = self.current_metier["points"]
-        else:
-            desc = self.current_metier["sous_domaines"][sous_domaine]
-            points = []
-
-        # Image proportionnelle centrée
-        img_path = os.path.join(IMG_DIR, self.current_metier["img"])
-        if os.path.exists(img_path):
-            max_width, max_height = 400, 180  # limite hauteur
-            img_pil = Image.open(img_path)
-            w, h = img_pil.size
-            ratio = min(max_width / w, max_height / h)
-            img_pil = img_pil.resize((int(w * ratio), int(h * ratio)))
-            img = ImageTk.PhotoImage(img_pil)
-
-            lbl_img = tk.Label(self.contenu_frame, image=img, bg=BG_COLOR)
-            lbl_img.image = img
-            lbl_img.pack(pady=10)
-            lbl_img.pack_configure(anchor="center")
-
-        # Description
         tk.Label(
-            self.contenu_frame,
-            text=desc,
-            font=("Segoe UI", 14),
+            self,
+            text="Choisissez un domaine",
+            font=("Helvetica", 18, "bold"),
             bg=BG_COLOR,
-            fg=TEXT_COLOR,
-            wraplength=700,
-            justify="left"
-        ).pack(anchor="nw", pady=10, padx=20)  # <-- padding à gauche augmenté à 20
+            fg=TEXT_COLOR
+        ).pack(pady=15)
 
-        # Points clés
-        for p in points:
-            tk.Label(
-                self.contenu_frame,
-                text="• " + p,
-                font=("Segoe UI", 13),
+        try:
+            domains = requests.get(API_DOMAINS).json()
+        except Exception as e:
+            print("Erreur fetching domains:", e)
+            domains = []
+
+        for d in domains:
+            frame = tk.Frame(self, bg="white", bd=2, relief="ridge", padx=10, pady=8)
+            frame.pack(fill="x", padx=50, pady=5)
+
+            name_btn_frame = tk.Frame(frame, bg="white")
+            name_btn_frame.pack(fill="x")
+
+            # Nom du domaine
+            tk.Button(
+                name_btn_frame,
+                text=d["name"],
+                font=("Helvetica", 14, "bold"),
+                bg="white",
+                fg=TEXT_COLOR,
+                relief="flat",
+                cursor="hand2",
+                command=lambda dom=d: self.open_domain(dom)
+            ).pack(side="left")
+
+            if self.user["role"] == "admin":
+                # Modifier domaine
+                tk.Button(
+                    name_btn_frame,
+                    text="✏️",
+                    font=("Helvetica", 11),
+                    bg="white",
+                    fg=TEXT_COLOR,
+                    relief="flat",
+                    cursor="hand2",
+                    command=lambda dom=d: self.domain_popup(dom)
+                ).pack(side="left", padx=5)
+
+                # Supprimer domaine
+                tk.Button(
+                    name_btn_frame,
+                    text="🗑️",
+                    font=("Helvetica", 11),
+                    bg="white",
+                    fg="red",
+                    relief="flat",
+                    cursor="hand2",
+                    command=lambda dom=d: self.delete_domain(dom)
+                ).pack(side="left", padx=5)
+
+        # Ajouter un domaine (admin)
+        if self.user["role"] == "admin":
+            tk.Button(
+                self,
+                text="➕ Ajouter un domaine",
+                font=("Helvetica", 12, "bold"),
                 bg=BG_COLOR,
                 fg=TEXT_COLOR,
-                justify="left"
-            ).pack(anchor="nw", pady=3, padx=40)  # <-- padding plus large pour décaler les bullets
+                relief="flat",
+                cursor="hand2",
+                command=self.domain_popup
+            ).pack(pady=10)
+
+        if self.user["role"] == "admin":
+            tk.Button(self, text="💼 Admin", bg="#6D6875", fg="white",
+                      font=("Segoe UI", 10, "bold"),
+                      command=lambda: self.master.show_admin_screen()).place(relx=0.95, rely=0.02, anchor="ne")
+
+    # -------------------------
+    # OUVRIR UN DOMAINE / SOUS-DOMAINE
+    # -------------------------
+    def open_domain(self, domain):
+        self.current_domain = domain
+        self.clear()
+
+        container = tk.Frame(self, bg=BG_COLOR)
+        container.pack(fill="both", expand=True)
+
+        nav = tk.Frame(container, bg="#EDE6D8", width=220)
+        nav.pack(side="left", fill="y")
+
+        content = tk.Frame(container, bg="white")
+        content.pack(side="right", fill="both", expand=True)
+
+        # Récupération articles / sous-domaines
+        try:
+            self.current_articles = requests.get(
+                API_KNOWLEDGE,
+                params={"domain_id": domain["id"]}
+            ).json()
+        except:
+            self.current_articles = []
+
+        # NAV BAR - titre
+        tk.Label(nav, text=domain["name"], font=("Helvetica", 14, "bold"), bg="#EDE6D8").pack(pady=10)
+
+        # BOUTON RETOUR → page domaines
+        tk.Button(nav, text="← Retour", bg="#6D6875", fg="white",
+                  font=("Helvetica", 12, "bold"), relief="flat",
+                  command=self.show_domains_view).pack(fill="x", padx=10, pady=(0, 10))
+
+        # BOUTON FORUM → forum du domaine
+        tk.Button(
+            nav,
+            text="💬 Forum",
+            bg="#6D6875",
+            fg="white",
+            font=("Helvetica", 12, "bold"),
+            relief="flat",
+            command=lambda d=domain: self.show_forum_callback(d)  # on envoie juste le domain
+        ).pack(fill="x", padx=10, pady=(0, 15))
+
+        # Bouton Introduction
+        tk.Button(nav, text="📘 Introduction", command=lambda: self.show_intro(content)) \
+            .pack(fill="x", padx=10, pady=5)
+
+        # Boutons articles / sous-domaines
+        for art in self.current_articles:
+            tk.Button(nav, text=art["title"], command=lambda a=art: self.show_article(content, a)) \
+                .pack(fill="x", padx=10, pady=2)
+
+        # ➕ Ajouter un sous-domaine (TOUT LE MONDE)
+        tk.Button(nav, text="➕ Ajouter un sous-domaine", command=self.article_popup) \
+            .pack(fill="x", padx=10, pady=15)
+
+        # Affiche introduction par défaut
+        self.show_intro(content)
+
+    # -------------------------
+    # INTRODUCTION
+    # -------------------------
+    def show_intro(self, frame):
+        self.clear_frame(frame)
+        tk.Label(frame, text=self.current_domain["name"], font=("Helvetica", 16, "bold"), bg="white").pack(pady=10)
+        tk.Label(frame, text=self.current_domain.get("description", "Aucune description"),
+                 wraplength=700, justify="left", bg="white").pack(padx=20, pady=10)
+
+    # -------------------------
+    # AFFICHER ARTICLE
+    # -------------------------
+    def show_article(self, frame, article):
+        self.clear_frame(frame)
+        tk.Label(frame, text=article["title"], font=("Helvetica", 16, "bold"), bg="white").pack(pady=10)
+        tk.Label(frame, text=article["content"], wraplength=700, justify="left", bg="white").pack(padx=20, pady=10)
+
+        if self.user["role"] == "admin":
+            tk.Button(frame, text="✏️ Modifier", command=lambda: self.article_popup(article)).pack(side="left", padx=20, pady=10)
+            tk.Button(frame, text="🗑️ Supprimer", command=lambda: self.delete_article(article)).pack(side="left", padx=5, pady=10)
+
+    # -------------------------
+    # POP-UP ARTICLE / SOUS-DOMAINE
+    # -------------------------
+    def article_popup(self, article=None):
+        popup = tk.Toplevel(self)
+        popup.title("Sous-domaine")
+        popup.geometry("420x320")
+        popup.configure(bg=BG_COLOR)
+
+        tk.Label(popup, text="Titre :", bg=BG_COLOR).pack(pady=5)
+        title_entry = tk.Entry(popup, width=45)
+        title_entry.pack()
+        tk.Label(popup, text="Contenu :", bg=BG_COLOR).pack(pady=5)
+        content_entry = tk.Text(popup, height=8, width=45)
+        content_entry.pack()
+
+        if article:
+            title_entry.insert(0, article["title"])
+            content_entry.insert("1.0", article["content"])
+
+        def submit():
+            title = title_entry.get().strip()
+            content = content_entry.get("1.0", "end").strip()
+            if not title or not content:
+                tk.messagebox.showerror("Erreur", "Titre et contenu requis")
+                return
+
+            payload = {
+                "user": self.user,
+                "domain_id": self.current_domain["id"],
+                "title": title,
+                "content": content,
+                "author_id": self.user["id"]
+            }
+
+            try:
+                if article:
+                    if self.user["role"] == "admin":
+                        requests.put(f"{API_KNOWLEDGE}{article['id']}", json=payload)
+                else:
+                    response = requests.post(API_KNOWLEDGE, json=payload)
+                    if response.status_code != 200:
+                        tk.messagebox.showerror("Erreur", response.json().get("message", "Erreur ajout"))
+                        return
+            except Exception as e:
+                tk.messagebox.showerror("Erreur", f"Impossible de sauvegarder\n{e}")
+                return
+
+            popup.destroy()
+            self.open_domain(self.current_domain)
+
+        tk.Button(popup, text="Valider", font=("Helvetica", 12, "bold"),
+                  bg="#6D6875", fg="white", command=submit).pack(pady=15)
+
+    # -------------------------
+    # POP-UP DOMAINES (ADMIN)
+    # -------------------------
+    def domain_popup(self, domain=None):
+        popup = tk.Toplevel(self)
+        popup.title("Domaine")
+        popup.geometry("400x200")
+        popup.configure(bg=BG_COLOR)
+
+        tk.Label(popup, text="Nom :", bg=BG_COLOR).pack(pady=5)
+        name_entry = tk.Entry(popup, width=40)
+        name_entry.pack(pady=5)
+        tk.Label(popup, text="Description :", bg=BG_COLOR).pack(pady=5)
+        desc_entry = tk.Entry(popup, width=40)
+        desc_entry.pack(pady=5)
+
+        if domain:
+            name_entry.insert(0, domain["name"])
+            desc_entry.insert(0, domain.get("description", ""))
+
+        def submit():
+            name = name_entry.get().strip()
+            desc = desc_entry.get().strip()
+            if not name:
+                return
+
+            payload = {"name": name, "description": desc, "user": self.user}
+
+            if domain:
+                requests.put(f"{API_DOMAINS}{domain['id']}", json=payload)
+            else:
+                requests.post(API_DOMAINS, data={"name": name, "role": self.user["role"], "description": desc})
+
+            popup.destroy()
+            self.show_domains_view()
+
+        tk.Button(popup, text="Valider", command=submit).pack(pady=15)
+
+    # -------------------------
+    # SUPPRIMER DOMAINES / ARTICLES
+    # -------------------------
+    def delete_domain(self, domain):
+        if not messagebox.askyesno("Supprimer", f"Supprimer {domain['name']} ?"):
+            return
+        requests.delete(f"{API_DOMAINS}{domain['id']}", json={"user": self.user})
+        self.show_domains_view()
+
+    def delete_article(self, article):
+        if not messagebox.askyesno("Supprimer", f"Supprimer {article['title']} ?"):
+            return
+        requests.delete(f"{API_KNOWLEDGE}{article['id']}", json={"user": self.user})
+        self.open_domain(self.current_domain)
+
+    # -------------------------
+    # UTILITAIRES
+    # -------------------------
+    def clear(self):
+        for w in self.winfo_children():
+            w.destroy()
+
+    def clear_frame(self, frame):
+        for w in frame.winfo_children():
+            w.destroy()

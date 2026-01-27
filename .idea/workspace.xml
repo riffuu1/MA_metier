@@ -5,35 +5,69 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cc281f45-99b1-47db-8160-cf6ac31fed91" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/data.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/core/session.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ui/admin_panel.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/forum.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/forum.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/inscriptions.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/inscription.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/login.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/img_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/images/téléchargement (2).png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/téléchargement (2).png" beforeDir="false" afterPath="$PROJECT_DIR$/images/téléchargement (2).png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/add_knowledge.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/add_knowledge.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/forum.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/forum.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/inscription.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/inscription.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/interface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ui/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/ui/login.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="38bSncQ1WM1sBUVD9SPQTlN1CBf" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.forum.executor": "Run",
     "Python.inscription.executor": "Run",
     "Python.interface.executor": "Run",
     "Python.login.executor": "Run",
     "Python.main.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "develop",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -42,13 +76,40 @@
       <recent name="C:\Users\3imad\PycharmProjects\MA_metier\images" />
     </key>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.130" />
+        <option value="bundled-python-sdk-1bde30d8e611-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.130" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cc281f45-99b1-47db-8160-cf6ac31fed91" name="Changes" comment="" />
+      <created>1769066944370</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1769066944370</updated>
+      <workItem from="1769066945477" duration="15077000" />
+      <workItem from="1769172255460" duration="8189000" />
+      <workItem from="1769273941411" duration="6697000" />
+      <workItem from="1769346114729" duration="12185000" />
+      <workItem from="1769411671526" duration="14841000" />
+      <workItem from="1769440233132" duration="8163000" />
+      <workItem from="1769451853685" duration="1832000" />
+      <workItem from="1769519519564" duration="3015000" />
+    </task>
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/MA_metier$main.coverage" NAME="main Coverage Results" MODIFIED="1769003396349" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/MA_metier$interface.coverage" NAME="interface Coverage Results" MODIFIED="1768991466321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
+    <SUITE FILE_PATH="coverage/MA_metier$main.coverage" NAME="main Coverage Results" MODIFIED="1769520214717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/MA_metier$interface.coverage" NAME="interface Coverage Results" MODIFIED="1769421496407" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
+    <SUITE FILE_PATH="coverage/MA_metier$forum.coverage" NAME="forum Coverage Results" MODIFIED="1769444420318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
     <SUITE FILE_PATH="coverage/MA_metier$inscription.coverage" NAME="inscription Coverage Results" MODIFIED="1768990212461" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
-    <SUITE FILE_PATH="coverage/MA_metier$login.coverage" NAME="login Coverage Results" MODIFIED="1768990218404" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
+    <SUITE FILE_PATH="coverage/MA_metier$login.coverage" NAME="login Coverage Results" MODIFIED="1769071006695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ui" />
   </component>
 </project>
